@@ -1,0 +1,208 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, 
+        maximum-scale=1.0, minimum-scale=1.0" />
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+
+        AFRAME.registerComponent("mytargetjd", {
+            init: function () {
+                this.el.addEventListener("targetFound", (event) => {
+                    setTimeout(() => {
+                        showInfo(
+                            document.querySelector("#user-image-jd"),
+                            document.querySelector("#email-image-jd"),
+                            document.querySelector("#phone-image-jd"),
+                            document.querySelector("#linkedin-image-jd"),
+                            document.querySelector("#web-image-jd"),
+                            document.querySelector("#behance-image-jd"),
+                            document.querySelector("#dribbble-image-jd"),
+                            document.querySelector("#twitter-image-jd"),
+                            document.querySelector("#instagram-image-jd"),
+                            document.querySelector("#text-title-jd"),
+                            document.querySelector("#text-value-jd"),
+                            contactLinksJD
+                        );
+                    }, 300);
+                });
+            },
+        });
+
+        const contactLinksJD = {
+            email: "mailto:example.company@example.com",
+            phone: "tel:1234567890",
+            linkedin: "https://www.linkedin.com/",
+            web: "https://google.com/",
+            behance: "https://www.behance.net/",
+            dribbble: "https://dribbble.com/",
+            twitter: "https://twitter.com/login?lang=en",
+            instagram: "https://www.instagram.com/",
+        };
+
+        const showInfo = (
+            userImage,
+            emailImage,
+            phoneImage,
+            linkedinImage,
+            webImage,
+            behanceImage,
+            dribbbleImage,
+            twitterImage,
+            instagramImage,
+            textTitle,
+            textValue,
+            links
+        ) => {
+            const showIcon = (icon, delay) => {
+                setTimeout(() => {
+                    icon.setAttribute("visible", true);
+                }, delay);
+            };
+
+            showIcon(emailImage, 600);
+            showIcon(phoneImage, 1200);
+            showIcon(linkedinImage, 1800);
+            showIcon(webImage, 2400);
+            showIcon(behanceImage, 5000);
+            showIcon(dribbbleImage, 4200);
+            showIcon(twitterImage, 3600);
+            showIcon(instagramImage, 3000);
+
+            const userIconVisible = (icon, delay) => {
+                setTimeout(() => {
+                    icon.setAttribute("visible", true);
+                    icon.setAttribute(
+                        "animation__scale",
+                        "property: scale; to: 1 1 1; dur: 1000; easing: easeInOutQuint;"
+                    );
+                    showTextWithFade(textTitle, 500);
+                    showTextWithFade(textValue, 1000);
+                }, delay);
+            };
+            userIconVisible(userImage, 400);
+
+            const showTextWithFade = (textElement, delay) => {
+                setTimeout(() => {
+                    textElement.setAttribute("visible", true);
+                    textElement.setAttribute("animation__fade", {
+                        property: "material.opacity",
+                        to: 1,
+                        dur: 1000,
+                        easing: "linear",
+                    });
+                }, delay);
+            };
+
+            const openSelectedLink = (link, value) => {
+                link.addEventListener("click", function (evt) {
+                    if (link === emailImage || link === phoneImage) {
+                        window.location.href = value;
+                    } else {
+                        window.open(value, "_blank");
+                    }
+                });
+            };
+
+            openSelectedLink(emailImage, links.email);
+            openSelectedLink(phoneImage, links.phone);
+            openSelectedLink(linkedinImage, links.linkedin);
+            openSelectedLink(webImage, links.web);
+            openSelectedLink(behanceImage, links.behance);
+            openSelectedLink(dribbbleImage, links.dribbble);
+            openSelectedLink(twitterImage, links.twitter);
+            openSelectedLink(instagramImage, links.instagram);
+        };
+
+    </script>
+</head>
+
+<body>
+    <div id="scanning-overlay" class="hidden">
+        <div class="inner">
+            <div class="scanline"></div>
+        </div>
+    </div>
+    <a-scene mindar-image="uiScanning: #scanning-overlay; imageTargetSrc: ./targets.mind; uiLoading:no"
+        color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false">
+
+        <a-assets>
+            <img id="email-icon" src="./icon/white-icon/gmail-color.png">
+            <img id="phone-icon" src="./icon/white-icon/call-color.png">
+            <img id="linkedin-icon" src="./icon/white-icon/linkedin-color.png">
+            <img id="web-icon" src="./icon/white-icon/web-color.png">
+            <img id="behance-icon" src="./icon/white-icon/behance-color.png">
+            <img id="dribbble-icon" src="./icon/white-icon/dribbble-color.png">
+            <img id="twitter-icon" src="./icon/white-icon/twitter-color.png">
+            <img id="instagram-icon" src="./icon/white-icon/instagram-color.png">
+            <img id="user-icon-jd" src="./icon/users-image/image.jpeg">
+            <img id="jd-text" src="./icon/users-image/Jaydev-Khatri.png">
+            <img id="jd-background" src="./icon/users-image/JD-1.png">
+            <img id="jd-design" src="./icon/users-image/text.png">
+        </a-assets>
+
+        <a-entity mytargetjd mindar-image-target="targetIndex: 0">
+
+            <a-plane color="transparent" opacity="0" position="0 0 -0.03">
+                <a-image src="#jd-background" position="-0.03 0.01 -0.1" height="1.90" width="1.15"></a-image>
+            </a-plane>
+
+            <a-image id="text-title-jd" visible="false" src="#jd-text" position="-0.02 0.7 0" height="0.15"
+                rotation="0 0 0.2"
+                animation__fade="property: material.opacity; from: 0; dur: 1000; easing: linear;"></a-image>
+
+            <a-plane position="0.19 0.35 0" color="transparent" opacity="0">
+                <a-image class="clickable" visible="false" id="email-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.35 0.1 0" src="#email-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="phone-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.63 -0.19 0" src="#phone-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="linkedin-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.63 -0.5 0" src="#linkedin-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="web-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.35 -0.75 0" src="#web-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+            </a-plane>
+
+            <a-circle visible="false" id="user-image-jd" src="#user-icon-jd" radius="0.30" position="-0.01 0.031 0"
+                scale="0 0 0" rotation="0 0 0"></a-circle>
+
+            <a-plane position="1.11 0.35 0.001" color="transparent" opacity="0">
+                <a-image class="clickable" visible="false" id="behance-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.89 0.08 0" src="#behance-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="dribbble-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.68 -0.2 0" src="#dribbble-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="twitter-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.68 -0.5 0" src="#twitter-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+
+                <a-image class="clickable" visible="false" id="instagram-image-jd" scale="0.19 0.19 0.19"
+                    position="-0.89 -0.75 0" src="#instagram-icon"
+                    animation="property: scale; to: 0.14 0.14 0.14; dur: 1000; easing: easeInSine; loop: true; dir: alternate"></a-image>
+            </a-plane>
+
+            <a-image id="text-value-jd" visible="false" src="#jd-design" position="-0.01 -0.7 0" height="0.12" width="1"
+                animation__fade="property: material.opacity; from: 0; dur:1000; easing: linear;"></a-image>
+        </a-entity>
+
+        <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
+            raycaster="far: 10000; objects: .clickable">
+        </a-camera>
+    </a-scene>
+</body>
+
+</html>
